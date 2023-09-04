@@ -8,6 +8,9 @@
       width:4em;
       background:lightblue;
     }
+    table{
+      margin-bottom:8px;
+    }
     [center]{
       text-align:center;
     }
@@ -20,10 +23,10 @@
 <div id=app>
   <b>Construcció</b>
   <table border=1>
-    <tr><td>Llarg  <td><input type=number v-model.number="llarg_m">         <td>m
-    <tr><td>Ample  <td><input type=number v-model.number="ample_m">         <td>m
-    <tr><td>Alçada <td><input type=number v-model.number="alçada_mitjana_m"><td>m
-    <tr><td>Volum  <td center>{{volum_m3}}                                  <td>m<sup>3</sup>
+    <tr><td>Llarg <td><input type=number v-model.number="llarg_m"> <td>m
+    <tr><td>Ample <td><input type=number v-model.number="ample_m"> <td>m
+    <tr><td>Profunditat <td><input type=number v-model.number="alçada_mitjana_m" step="0.1"><td>m
+    <tr><td>Volum <td center>{{volum_m3}} <td>m<sup>3</sup>
   </table>
 
   <b>Dosificar clor líquid (lleixiu)</b>
@@ -39,7 +42,7 @@
       <td>L
     </tr>
     <tr>
-      <td>Clor que s'afegirà (piscina)
+      <td>Clor que s'afegirà (ampolla&rarr;piscina)
       <td center>{{clor_afegit_lejia_g}}
       <td>g
     </tr>
@@ -50,7 +53,7 @@
     </tr>
     <tr>
       <td>Concentració clor actual (piscina)
-      <td><input type=number v-model="conc_clor_actual_mgL">
+      <td><input type=number v-model="conc_clor_actual_mgL" step="0.1">
       <td>mg/L
     </tr>
     <tr>
@@ -64,48 +67,71 @@
     </tr>
   </table>
 
-  <b>Valors recomanats</b>
+  <b>Informació</b>
   <table border=1>
-    <tr><td>pH <td>7.2 - 7.6 <td>&empty;
+    <tr>
+      <th>Propietat
+      <th>Recomanat
+      <th>Màxim
+      <th>Unitat
+      <th>Descripció
+    </tr>
+    <tr>
+      <td>pH
+      <td center>7.2 - 7.6 
+      <td center>7.8
+      <td>&empty;
       <td small>Acidesa
     </tr>
-    <tr><td>Clor <td>0.5 - 2 <td>mg/L
-      <td small>"Clor lliure", "Clor actiu", "Hipoclorit", "ClO<sup>-</sup>"
+    <tr>
+      <td>Clor
+      <td center>0.5 - 2
+      <td center>5
+      <td>mg/L
+      <td small>Noms: "FCL", "Clor lliure", "Clor actiu", "Hipoclorit", "ClO<sup>-</sup>"
     </tr>
-    <tr><td>Estabilitzant <td>25  - 30  <td>mg/L
+    <tr>
+      <td>Estabilitzant
+      <td center>25 - 30
+      <td center>100
+      <td>mg/L
       <td small>
-        Impedeix que la llum del Sol degradi el clor.
-        Per sobre 50, disminueix acció del clor.
-        No es pot eliminar.
+        Àcid cianúric (CYA). Impedeix que la llum solar degradi el clor.
+        Per sobre 50, disminueix l'acció desinfectant del clor.
       </td>
     </tr>
     <tr>
       <td>Alcalinitat
-      <td>?
+      <td center>?
+      <td center>?
       <td>mg/L
       <td small>Capacitat per suportar canvis de pH
     </tr>
     <tr>
       <td>Calci
-      <td>?
+      <td center>0
+      <td center>?
       <td>mg/L
       <td small>Pot formar precipitats
     </tr>
     <tr>
       <td>Fosfats
-      <td>?
+      <td center>0
+      <td center>?
       <td>mg/L
       <td small>Fa aparèixer algues
     </tr>
     <tr>
       <td>Coure
-      <td>?
+      <td center>0
+      <td center>?
       <td>mg/L
       <td small>
     </tr>
     <tr>
       <td>Ferro
-      <td>?
+      <td center>0
+      <td center>?
       <td>mg/L
       <td small>
     </tr>
