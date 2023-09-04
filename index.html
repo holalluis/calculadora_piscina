@@ -1,0 +1,147 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <title>calculadora piscina</title>
+  <style>
+    input[type=number]{
+      text-align:right;
+      width:4em;
+      background:lightblue;
+    }
+    [center]{
+      text-align:center;
+    }
+    [small]{
+      font-size:smaller;
+    }
+  </style>
+</head><body>
+
+<div id=app>
+  <b>Construcció</b>
+  <table border=1>
+    <tr><td>Llarg  <td><input type=number v-model.number="llarg_m">         <td>m
+    <tr><td>Ample  <td><input type=number v-model.number="ample_m">         <td>m
+    <tr><td>Alçada <td><input type=number v-model.number="alçada_mitjana_m"><td>m
+    <tr><td>Volum  <td center>{{volum_m3}}                                  <td>m<sup>3</sup>
+  </table>
+
+  <b>Dosificar clor líquid (lleixiu)</b>
+  <table border=1>
+    <tr>
+      <td>Concentració clor líquid (ampolla)
+      <td><input type=number v-model="conc_lejia_gL">
+      <td>g/L
+    </tr>
+    <tr>
+      <td>Volum clor líquid (ampolla)
+      <td><input type=number v-model="volum_lejia_L" step="0.1">
+      <td>L
+    </tr>
+    <tr>
+      <td>Clor que s'afegirà
+      <td center>{{clor_afegit_lejia_g}}
+      <td>g
+    </tr>
+    <tr>
+      <td>Concentració clor afegida (piscina)
+      <td center>{{conc_afegida_lejia_mgL.toFixed(2)}}
+      <td>mg/L
+    </tr>
+    <tr>
+      <td>Concentració clor actual (piscina)
+      <td><input type=number v-model="conc_clor_actual_mgL">
+      <td>mg/L
+    </tr>
+    <tr>
+      <td>Concentració clor final
+      <td center>
+        {{
+          (conc_clor_actual_mgL + conc_afegida_lejia_mgL).toFixed(2)
+        }}
+      </td>
+      <td>mg/L
+    </tr>
+  </table>
+
+  <b>Valors recomanats</b>
+  <table border=1>
+    <tr><td>pH <td>7.2 - 7.6 <td>&empty;
+      <td small>Acidesa
+    </tr>
+    <tr><td>Clor <td>0.5 - 2 <td>mg/L
+      <td small>"Clor lliure", "Clor actiu", "Hipoclorit", "ClO<sup>-</sup>"
+    </tr>
+    <tr><td>Estabilitzant <td>25  - 30  <td>mg/L
+      <td small>
+        Impedeix que la llum del Sol degradi el clor.
+        Per sobre 50, disminueix acció del clor.
+        No es pot eliminar.
+      </td>
+    </tr>
+    <tr>
+      <td>Alcalinitat
+      <td>?
+      <td>mg/L
+      <td small>Capacitat per suportar canvis de pH
+    </tr>
+    <tr>
+      <td>Calci
+      <td>?
+      <td>mg/L
+      <td small>Pot formar precipitats
+    </tr>
+    <tr>
+      <td>Fosfats
+      <td>?
+      <td>mg/L
+      <td small>Fa aparèixer algues
+    </tr>
+    <tr>
+      <td>Coure
+      <td>?
+      <td>mg/L
+      <td small>
+    </tr>
+    <tr>
+      <td>Ferro
+      <td>?
+      <td>mg/L
+      <td small>
+    </tr>
+  </table>
+</div>
+
+<script>
+  let app=Vue.createApp({
+    data(){return{
+      llarg_m:8,
+      ample_m:5,
+      alçada_mitjana_m:1.5,
+
+      //dosificació clor líquid
+      conc_lejia_gL:150,
+      volum_lejia_L:1,
+      conc_clor_actual_mgL:0.33,
+    }},
+
+    computed:{
+      volum_m3(){
+        let l=this.llarg_m;
+        let w=this.ample_m;
+        let h=this.alçada_mitjana_m;
+        return l*w*h;
+      },
+
+      clor_afegit_lejia_g(){
+        let gL = this.conc_lejia_gL;
+        let vL = this.volum_lejia_L;
+        return gL*vL;
+      },
+
+      conc_afegida_lejia_mgL(){
+        return this.clor_afegit_lejia_g/this.volum_m3; //g/m3 == mg/L
+      },
+    },
+  }).mount("#app");
+</script>
