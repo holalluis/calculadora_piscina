@@ -21,29 +21,31 @@
 </head><body>
 
 <div>
-  <b>Calculadora piscines</b> |
-  <a href="//github.com/holalluis/calculadora_piscina" target="_blank">github.com/holalluis/calculadora_piscina</a>
+  <b>Calculadora piscina</b> &mdash;
+  <code>
+    <a href="//github.com/holalluis/calculadora_piscina" target="_blank">github.com/holalluis/calculadora_piscina</a>
+  </code>
   <hr>
 </div>
 
 <div id=app>
   <b>Construcció</b>
   <table border=1>
-    <tr><td>Llarg <td><input type=number v-model.number="llarg_m"> <td>m
-    <tr><td>Ample <td><input type=number v-model.number="ample_m"> <td>m
+    <tr><td>Llarg<td><input type=number v-model.number="llarg_m"><td>m
+    <tr><td>Ample<td><input type=number v-model.number="ample_m"><td>m
     <tr><td>Profunditat <td><input type=number v-model.number="alçada_mitjana_m" step="0.1"><td>m
-    <tr><td>Volum <td center>{{volum_m3}} <td>m<sup>3</sup>
+    <tr><td>Volum<td center>{{volum_m3}}<td>m<sup>3</sup>
   </table>
 
   <b>Dosificar clor líquid (lleixiu)</b>
   <table border=1>
     <tr>
-      <td>Concentració clor líquid (ampolla)
+      <td>Concentració clor (ampolla)
       <td><input type=number v-model="conc_lejia_gL">
       <td>g/L
     </tr>
     <tr>
-      <td>Volum clor líquid (ampolla)
+      <td>Volum que s'afegirà (ampolla)
       <td><input type=number v-model="volum_lejia_L" step="0.1">
       <td>L
     </tr>
@@ -87,14 +89,20 @@
       <td center>7.2 - 7.6 
       <td center>7.8
       <td>&empty;
-      <td small>Acidesa
+      <td small>
+        -log([H<sub>3</sub>O<sup>+</sup>]).
+        Acidesa.
+      </td>
     </tr>
     <tr>
       <td>Clor
       <td center>0.5 - 2
       <td center>5
       <td>mg/L
-      <td small>Desinfectant. Altres noms: "FCL", "Clor lliure", "Clor actiu", "Hipoclorit", "ClO<sup>-</sup>"
+      <td small>
+        "ClO<sup>-</sup>", "Hipoclorit".
+        Desinfectant. Altres noms: "FCL", "Clor lliure", "Clor actiu",
+      </td>
     </tr>
     <tr>
       <td>Estabilitzant
@@ -102,7 +110,8 @@
       <td center>100
       <td>mg/L
       <td small>
-        Àcid cianúric (CYA). Impedeix que la llum solar degradi el clor.
+        (CNOH)<sub>3</sub>, Àcid cianúric (CYA).
+        Impedeix que la llum solar degradi el clor.
         Per sobre 50, disminueix l'acció desinfectant del clor.
       </td>
     </tr>
@@ -111,21 +120,27 @@
       <td center>?
       <td center>?
       <td>mg/L
-      <td small>Capacitat per suportar canvis de pH
+      <td small>
+        Capacitat per suportar canvis de pH.
+      </td>
     </tr>
     <tr>
       <td>Calci
       <td center>0
       <td center>?
       <td>mg/L
-      <td small>Pot formar precipitats
+      <td small>
+        Ca<sup>2+</sup>. Duresa de l'aigua. Pot formar precipitats
+      </td>
     </tr>
     <tr>
       <td>Fosfats
       <td center>0
       <td center>?
       <td>mg/L
-      <td small>Fa aparèixer algues
+      <td small>
+        PO<sub>4</sub><sup>3-</sup>. Fa aparèixer algues
+      </td>
     </tr>
     <tr>
       <td>Coure
@@ -133,6 +148,8 @@
       <td center>?
       <td>mg/L
       <td small>
+        Cu<sup>2+</sup>.
+      </td>
     </tr>
     <tr>
       <td>Ferro
@@ -140,6 +157,8 @@
       <td center>?
       <td>mg/L
       <td small>
+        Fe<sup>2+</sup>, Fe<sup>3+</sup>.
+      </td>
     </tr>
   </table>
 </div>
