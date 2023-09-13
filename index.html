@@ -79,8 +79,14 @@
   <table border=1>
     <tr>
       <td>Concentració HCl (ampolla)
-      <td><input type=number v-model.number="conc_salfumant_percentatge">
-      <td>%
+      <td colspan=2>
+        <div v-for="perc in [10,20,30,32,34,36,38]">
+          <label>
+            <input type=radio v-model.number="conc_salfumant_percentatge" :value="perc">
+            {{perc}}%
+          </label>
+        </div>
+      </td>
     </tr>
     <tr>
       <td>Concentració HCl (ampolla)
@@ -234,7 +240,7 @@
 
       //dosificació salfumant
       conc_salfumant_percentatge:20,
-      volum_salfumant_mL:100,
+      volum_salfumant_mL:5,
       pH_actual:7.5,
     }},
 
