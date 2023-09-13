@@ -41,7 +41,7 @@
   <table border=1>
     <tr>
       <td>Concentració clor (ampolla)
-      <td><input type=number v-model="conc_lejia_gL">
+      <td><input type=number v-model.number="conc_lejia_gL">
       <td>g/L
     </tr>
     <tr>
@@ -61,7 +61,7 @@
     </tr>
     <tr>
       <td>Concentració clor actual (piscina)
-      <td><input type=number v-model="conc_clor_actual_mgL" step="0.1">
+      <td><input type=number v-model.number="conc_clor_actual_mgL" step="0.1">
       <td>mg/L
     </tr>
     <tr>
@@ -72,6 +72,55 @@
         }}
       </td>
       <td>mg/L
+    </tr>
+  </table>
+
+  <b>Disminuir pH amb salfumant (HCl, àcid clorhídric)</b>
+  <table border=1>
+    <tr>
+      <td>Concentració HCl (ampolla)
+      <td><input type=number v-model.number="conc_salfumant_percentatge">
+      <td>%
+    </tr>
+    <tr>
+      <td>Concentració HCl (ampolla)
+      <td center>{{conc_salfumant_M}}
+      <td>M
+    </tr>
+    <tr>
+      <td>Concentració HCl (ampolla)
+      <td center>{{conc_salfumant_gL.toFixed(2)}}
+      <td>g/L
+    </tr>
+    <tr>
+      <td>Volum que s'afegirà (ampolla)
+      <td><input type=number v-model.number="volum_salfumant_mL" step="0.1">
+      <td>mL
+    </tr>
+    <tr>
+      <td>Volum que s'afegirà (ampolla)
+      <td center>{{volum_salfumant_L}}
+      <td>L
+    </tr>
+    <tr>
+      <td>HCl que s'afegirà (ampolla&rarr;piscina)
+      <td center>{{HCl_afegit_salfumant_g.toFixed(2)}}
+      <td>g
+    </tr>
+    <tr>
+      <td>mols HCl que s'afegiran (ampolla&rarr;piscina)
+      <td center>{{mols_HCl_afegits.toFixed(4)}}
+      <td>mols
+    </tr>
+    <tr>
+      <td>pH actual (piscina)
+      <td><input type=number v-model.number="pH_actual" step="0.1">
+      <td>&empty;
+    </tr>
+    <tr>
+      <td>pH final (piscina)
+      <td center>{{pH_final.toFixed(2)}}
+      <td>&empty;
     </tr>
   </table>
 
@@ -180,8 +229,13 @@
 
       //dosificació clor líquid
       conc_lejia_gL:150,
-      volum_lejia_L:0.5,
-      conc_clor_actual_mgL:5,
+      volum_lejia_L:1,
+      conc_clor_actual_mgL:1,
+
+      //dosificació salfumant
+      conc_salfumant_percentatge:20,
+      volum_salfumant_mL:100,
+      pH_actual:7.5,
     }},
 
     computed:{
@@ -192,14 +246,58 @@
         return l*w*h;
       },
 
+      //dosificació clor líquid
       clor_afegit_lejia_g(){
         let gL = this.conc_lejia_gL;
         let vL = this.volum_lejia_L;
         return gL*vL;
       },
-
       conc_afegida_lejia_mgL(){
         return this.clor_afegit_lejia_g/this.volum_m3; //g/m3 == mg/L
+      },
+
+      //dosificació salfumant
+      volum_salfumant_L(){
+        return this.volum_salfumant_mL/1000;
+      },
+      conc_salfumant_M(){
+        return {
+          //percentatge / molaritat
+          10:	2.87,
+          20:	6.02,
+          30:	9.45,
+          32:	10.17,
+          34:	10.90,
+          36:	11.64,
+          38:	12.39,
+        }[this.conc_salfumant_percentatge]; //mols/L
+      },
+      conc_salfumant_gL(){
+        const pes = 36.45;//g/mol
+        return this.conc_salfumant_M*pes; //g/L
+      },
+      HCl_afegit_salfumant_g(){
+        let gL = this.conc_salfumant_gL;
+        let vL = this.volum_salfumant_L;
+        return gL*vL;
+      },
+      mols_HCl_afegits(){
+        let M = this.conc_salfumant_M;
+        let L = this.volum_salfumant_L;
+        return M*L;
+      },
+      pH_final(){
+        let litres        = this.volum_m3*1e3;       //litres piscina
+        let pH_actual     = this.pH_actual;
+        let conc_H_actual = Math.pow(10,-pH_actual); //mols/litre
+
+        let mols_H_actual = conc_H_actual*litres;          //mols
+        let mols_H_afegit = this.mols_HCl_afegits;         //mols
+        let mols_finals_H = mols_H_actual + mols_H_afegit; //mols
+
+        let conc_final_H  = mols_finals_H/(litres+this.volum_salfumant_L); //M
+        let pH = -Math.log10(conc_final_H);
+        return pH;
       },
     },
   }).mount("#app");
