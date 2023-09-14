@@ -11,6 +11,13 @@
     table{
       margin-bottom:8px;
     }
+    summary{
+      background:lightblue;
+      cursor:pointer;
+    }
+    summary:hover{
+      text-decoration:underline;
+    }
     [center]{
       text-align:center;
     }
@@ -21,7 +28,8 @@
 </head><body>
 
 <div>
-  <b>Calculadora piscina</b> &mdash;
+  <b>CALCULADORA PISCINA</b>
+  &mdash;
   <code>
     <a href="//github.com/holalluis/calculadora_piscina" target="_blank">github.com/holalluis/calculadora_piscina</a>
   </code>
@@ -29,201 +37,209 @@
 </div>
 
 <div id=app>
-  <b>Construcció</b>
-  <table border=1>
-    <tr><td>Llarg<td><input type=number v-model.number="llarg_m"><td>m
-    <tr><td>Ample<td><input type=number v-model.number="ample_m"><td>m
-    <tr><td>Profunditat <td><input type=number v-model.number="alçada_mitjana_m" step="0.1"><td>m
-    <tr><td>Volum<td center>{{volum_m3}}<td>m<sup>3</sup>
-  </table>
+  <details open>
+    <summary><b>Construcció</b></summary>
+    <table border=1>
+      <tr><td>Llarg<td><input type=number v-model.number="llarg_m"><td>m
+      <tr><td>Ample<td><input type=number v-model.number="ample_m"><td>m
+      <tr><td>Profunditat <td><input type=number v-model.number="alçada_mitjana_m" step="0.1"><td>m
+      <tr><td>Volum<td center>{{volum_m3}}<td>m<sup>3</sup>
+    </table>
+  </details>
 
-  <b>Dosificar clor líquid (lleixiu)</b>
-  <table border=1>
-    <tr>
-      <td>Concentració clor (ampolla)
-      <td><input type=number v-model.number="conc_lejia_gL">
-      <td>g/L
-    </tr>
-    <tr>
-      <td>Volum que s'afegirà (ampolla)
-      <td><input type=number v-model="volum_lejia_L" step="0.1">
-      <td>L
-    </tr>
-    <tr>
-      <td>Clor que s'afegirà (ampolla&rarr;piscina)
-      <td center>{{clor_afegit_lejia_g}}
-      <td>g
-    </tr>
-    <tr>
-      <td>Concentració clor que s'afegirà (piscina)
-      <td center>{{conc_afegida_lejia_mgL.toFixed(2)}}
-      <td>mg/L
-    </tr>
-    <tr>
-      <td>Concentració clor actual (piscina)
-      <td><input type=number v-model.number="conc_clor_actual_mgL" step="0.1">
-      <td>mg/L
-    </tr>
-    <tr>
-      <td>Concentració clor final (piscina) (actual+afegida)
-      <td center>
-        {{
-          (conc_clor_actual_mgL + conc_afegida_lejia_mgL).toFixed(2)
-        }}
-      </td>
-      <td>mg/L
-    </tr>
-  </table>
+  <details open>
+    <summary><b>Dosificar clor líquid (lleixiu)</b></summary>
+    <table border=1>
+      <tr>
+        <td>Concentració clor (ampolla)
+        <td><input type=number v-model.number="conc_lejia_gL">
+        <td>g/L
+      </tr>
+      <tr>
+        <td>Volum que s'afegirà (ampolla)
+        <td><input type=number v-model="volum_lejia_L" step="0.1">
+        <td>L
+      </tr>
+      <tr>
+        <td>Clor que s'afegirà (ampolla&rarr;piscina)
+        <td center>{{clor_afegit_lejia_g}}
+        <td>g
+      </tr>
+      <tr>
+        <td>Concentració clor que s'afegirà (piscina)
+        <td center>{{conc_afegida_lejia_mgL.toFixed(2)}}
+        <td>mg/L
+      </tr>
+      <tr>
+        <td>Concentració clor actual (piscina)
+        <td><input type=number v-model.number="conc_clor_actual_mgL" step="0.1">
+        <td>mg/L
+      </tr>
+      <tr>
+        <td>Concentració clor final (piscina) (actual+afegida)
+        <td center>
+          {{
+            (conc_clor_actual_mgL + conc_afegida_lejia_mgL).toFixed(2)
+          }}
+        </td>
+        <td>mg/L
+      </tr>
+    </table>
+  </details>
 
-  <b>Disminuir pH amb salfumant (HCl, àcid clorhídric)</b>
-  <table border=1>
-    <tr>
-      <td>Concentració HCl (ampolla)
-      <td colspan=2>
-        <div v-for="perc in [10,20,30,32,34,36,38]">
-          <label>
-            <input type=radio v-model.number="conc_salfumant_percentatge" :value="perc">
-            {{perc}}%
-          </label>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>Concentració HCl (ampolla)
-      <td center>{{conc_salfumant_M}}
-      <td>M
-    </tr>
-    <tr>
-      <td>Concentració HCl (ampolla)
-      <td center>{{conc_salfumant_gL.toFixed(2)}}
-      <td>g/L
-    </tr>
-    <tr>
-      <td>Volum que s'afegirà (ampolla)
-      <td><input type=number v-model.number="volum_salfumant_mL" step="0.1">
-      <td>mL
-    </tr>
-    <tr>
-      <td>Volum que s'afegirà (ampolla)
-      <td center>{{volum_salfumant_L}}
-      <td>L
-    </tr>
-    <tr>
-      <td>HCl que s'afegirà (ampolla&rarr;piscina)
-      <td center>{{HCl_afegit_salfumant_g.toFixed(2)}}
-      <td>g
-    </tr>
-    <tr>
-      <td>mols HCl que s'afegiran (ampolla&rarr;piscina)
-      <td center>{{mols_HCl_afegits.toFixed(4)}}
-      <td>mols
-    </tr>
-    <tr>
-      <td>pH actual (piscina)
-      <td><input type=number v-model.number="pH_actual" step="0.1">
-      <td>&empty;
-    </tr>
-    <tr>
-      <td>pH final (piscina)
-      <td center>{{pH_final.toFixed(2)}}
-      <td>&empty;
-    </tr>
-  </table>
+  <details open>
+    <summary><b>Disminuir pH amb salfumant (HCl, àcid clorhídric)</b></summary>
+    <table border=1>
+      <tr>
+        <td>Concentració HCl (ampolla)
+        <td colspan=2>
+          <div v-for="perc in [10,20,30,32,34,36,38]">
+            <label>
+              <input type=radio v-model.number="conc_salfumant_percentatge" :value="perc">
+              {{perc}}%
+            </label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Concentració HCl (ampolla)
+        <td center>{{conc_salfumant_M}}
+        <td>M
+      </tr>
+      <tr>
+        <td>Concentració HCl (ampolla)
+        <td center>{{conc_salfumant_gL.toFixed(2)}}
+        <td>g/L
+      </tr>
+      <tr>
+        <td>Volum que s'afegirà (ampolla)
+        <td><input type=number v-model.number="volum_salfumant_mL">
+        <td>mL
+      </tr>
+      <tr>
+        <td>Volum que s'afegirà (ampolla)
+        <td center>{{volum_salfumant_L}}
+        <td>L
+      </tr>
+      <tr>
+        <td>HCl que s'afegirà (ampolla&rarr;piscina)
+        <td center>{{HCl_afegit_salfumant_g.toFixed(2)}}
+        <td>g
+      </tr>
+      <tr>
+        <td>mols HCl que s'afegiran (ampolla&rarr;piscina)
+        <td center>{{mols_HCl_afegits.toFixed(4)}}
+        <td>mols
+      </tr>
+      <tr>
+        <td>pH actual (piscina)
+        <td><input type=number v-model.number="pH_actual" step="0.1">
+        <td>&empty;
+      </tr>
+      <tr>
+        <td>pH final (piscina)
+        <td center>{{pH_final.toFixed(2)}}
+        <td>&empty;
+      </tr>
+    </table>
+  </details>
 
-  <b>Informació</b>
-  <table border=1>
-    <tr>
-      <th>Propietat
-      <th>Recomanat
-      <th>Màxim
-      <th>Unitat
-      <th>Descripció
-    </tr>
-    <tr>
-      <td>pH
-      <td center>7.0 - 7.4
-      <td center>
-      <td>&empty;
-      <td small>
-        -log([H<sub>3</sub>O<sup>+</sup>]).
-        Acidesa.
-      </td>
-    </tr>
-    <tr>
-      <td>Clor
-      <td center>0.5 - 2
-      <td center>3
-      <td>mg/L
-      <td small>
-        ClO<sup>-</sup>, "Hipoclorit".
-        Desinfectant. Altres noms: "FCL", "Clor lliure", "Clor actiu",
-      </td>
-    </tr>
-    <tr>
-      <td>Clor combinat
-      <td center>0
-      <td center>0.6
-      <td>mg/L
-      <td small>"CCL". Cloramines i altres compostos. Indicador de contaminació.
-      </td>
-    </tr>
-    <tr>
-      <td>Estabilitzant
-      <td center>25 - 30
-      <td center>100
-      <td>mg/L
-      <td small>
-        (CNOH)<sub>3</sub>, Àcid cianúric (CYA).
-        Impedeix que la llum solar degradi el clor.
-        Per sobre 50, disminueix l'acció desinfectant del clor.
-      </td>
-    </tr>
-    <tr>
-      <td>Alcalinitat
-      <td center>&ge;80
-      <td center>
-      <td>mg/L
-      <td small>
-        Capacitat per suportar canvis de pH.
-      </td>
-    </tr>
-    <tr>
-      <td>Calci
-      <td center>0
-      <td center>185
-      <td>mg/L
-      <td small>
-        Ca<sup>2+</sup>. Duresa de l'aigua. Pot formar precipitats
-      </td>
-    </tr>
-    <tr>
-      <td>Fosfats
-      <td center>0
-      <td center>?
-      <td>mg/L
-      <td small>
-        PO<sub>4</sub><sup>3-</sup>. Fa aparèixer algues
-      </td>
-    </tr>
-    <tr>
-      <td>Coure
-      <td center>0
-      <td center>?
-      <td>mg/L
-      <td small>
-        Cu<sup>2+</sup>.
-      </td>
-    </tr>
-    <tr>
-      <td>Ferro
-      <td center>0
-      <td center>?
-      <td>mg/L
-      <td small>
-        Fe<sup>2+</sup>, Fe<sup>3+</sup>.
-      </td>
-    </tr>
-  </table>
+  <details open>
+    <summary><b>Informació</b></summary>
+    <table border=1>
+      <tr>
+        <th>Propietat
+        <th>Recomanat
+        <th>Mínim/Màxim
+        <th>Unitat
+        <th>Descripció
+      </tr>
+      <tr>
+        <td>pH
+        <td center>7.2 - 7.8
+        <td center>6.2 - 8.4
+        <td>&empty;
+        <td small>
+          -log([H<sub>3</sub>O<sup>+</sup>]).
+          Acidesa.
+        </td>
+      </tr>
+      <tr>
+        <td>Clor
+        <td center>0.5 - 2
+        <td center>5
+        <td>mg/L
+        <td small>
+          ClO<sup>-</sup>, "Hipoclorit".
+          Desinfectant. Altres noms: "FCL", "Clor lliure", "Clor actiu",
+        </td>
+      </tr>
+      <tr>
+        <td>Clor combinat
+        <td center>0
+        <td center>0.6
+        <td>mg/L
+        <td small>"CCL". Cloramines i altres compostos. Indicador de contaminació.
+        </td>
+      </tr>
+      <tr>
+        <td>Estabilitzant
+        <td center>25 - 30
+        <td center>100
+        <td>mg/L
+        <td small>
+          (CNOH)<sub>3</sub>, Àcid cianúric (CYA).
+          Impedeix que la llum solar degradi el clor.
+          Per sobre 50, disminueix l'acció desinfectant del clor.
+        </td>
+      </tr>
+      <tr>
+        <td>Alcalinitat
+        <td center>&ge;80
+        <td center>180
+        <td>mg/L
+        <td small>
+          Capacitat per suportar canvis de pH.
+        </td>
+      </tr>
+      <tr>
+        <td>Calci
+        <td center>0
+        <td center>185
+        <td>mg/L
+        <td small>
+          Ca<sup>2+</sup>. Duresa de l'aigua. Pot formar precipitats
+        </td>
+      </tr>
+      <tr>
+        <td>Fosfats
+        <td center>0
+        <td center>?
+        <td>mg/L
+        <td small>
+          PO<sub>4</sub><sup>3-</sup>. Fa aparèixer algues
+        </td>
+      </tr>
+      <tr>
+        <td>Coure
+        <td center>0
+        <td center>?
+        <td>mg/L
+        <td small>
+          Cu<sup>2+</sup>. Tenyeix el cabell de verd
+        </td>
+      </tr>
+      <tr>
+        <td>Ferro
+        <td center>0
+        <td center>?
+        <td>mg/L
+        <td small>
+          Fe<sup>2+</sup>, Fe<sup>3+</sup>.
+        </td>
+      </tr>
+    </table>
+  </details>
 </div>
 
 <script>
